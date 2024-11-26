@@ -6,10 +6,20 @@
       <title>{% block nosaukums %} Chuck Norris jokes {% endblock %}</title>
     </head>
     <body>
+        <a href="/">Joki</a>
+        <a href="/uni">Universitātes</a>
         {% block saturs %}
             <h2>Joke here</h2>
             <p>{{joke}}</p>
             <img src="{{image}}">
+            <form method = "post">
+                <select name = "cat">
+                    {% for viens in categories %}
+                        <option value = {{viens}}>{{viens}}</option>
+                    {%endfor%}
+                </select>
+                <input type="submit" value="Izvēlēties joka kategoriju!">
+            </form>
         {% endblock %}
     </body>
 </html>
