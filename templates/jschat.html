@@ -1,0 +1,16 @@
+{%extends "index.html"%}
+
+<title>{% block nosaukums %} JS chat {% endblock %}</title>
+
+{%block saturs%}
+    <h3>JS chat</h3>
+    <div id="chat"></div>
+    <div>
+        <input id = "name" placeholder="name">
+        <input id = "text" placeholder="message">
+        <button onclick="sendMessage()">Send!</button>
+    </div>
+    <script>
+        readMessages();
+    </script>
+{%endblock%}
