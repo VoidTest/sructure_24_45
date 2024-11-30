@@ -30,7 +30,6 @@ def index():
 def uni():
     answer = requests.get("http://universities.hipolabs.com/search?country=latvia")
     all = answer.json()
-    print(all[3]["web_pages"][0])
     nosaukumi = []
     for elements in all:
         added = {
@@ -48,16 +47,42 @@ def jschat():
 @app.route("/jschat/send", methods=["POST"])
 def send():
     answer = request.json
-    if answer ["saturs"] == "\clear":
+    banned = []
+    with open("chatBan.txt", "r") as f:
+        banned = f.readlines()
+    if answer["name"]+"\n" in banned:
+        return "User is banned"
+
+    if answer["saturs"] == "\\clear":
         with open("chatMessage.txt", "w") as f:
             f.write("")
+        with open("chatBan.txt", "w") as f:
+            f.write("")
         return "Izdzests"
+    elif answer["saturs"] == "\\pink":
+        pink("is pink")
+    elif answer["saturs"] == "\\ban":
+        with open("chatBan.txt", "a") as f:
+            f.write(answer["name"])
+            f.write("\n")
+        return "Banned"
     with open("chatMessage.txt", "a") as f:
         f.write(answer["name"])
         f.write("----")
         f.write(answer["saturs"])
         f.write("\n")
     return jsonify("OK")
+
+globalPink = "not pink"
+
+@app.route("/jschat/pink")
+def pink(ispink = "not pink"):
+    global globalPink
+    if ispink != "not pink":
+        globalPink = ispink
+    elif globalPink != "is pink":
+        globalPink = "not pink"
+    return jsonify(globalPink)
 
 @app.route("/jschat/read")
 def read():
